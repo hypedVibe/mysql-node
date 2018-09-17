@@ -1,15 +1,11 @@
 const express = require('express');
-const Sequelize = require('sequelize');
 
+const routes = require('./routes')
 const db = require('./models/index');
 
 const app = express();
 
-// TODO: end-points to another folder
-app.get('/smth', async (req, res) => {
-  const foo = await db.Foo.create({ name: 'OMG' });
-  res.send(foo);
-});
+app.use(routes);
 
 db.sequelize.sync()
   .then(() => {
