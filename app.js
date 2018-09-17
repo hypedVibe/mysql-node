@@ -3,6 +3,8 @@ const express = require('express');
 const routes = require('./routes')
 const db = require('./models/index');
 
+const { errorHandling } = require('./middleware/errorHandling')
+
 const app = express();
 
 app.use(routes);
@@ -20,3 +22,5 @@ db.sequelize.sync()
   .catch((err) => {
     console.error(err);
   });
+
+app.use(errorHandling);
