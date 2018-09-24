@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const routes = require('./routes')
 const db = require('./models/index');
@@ -7,7 +8,8 @@ const { errorHandling } = require('./middleware/errorHandling')
 
 const app = express();
 
-app.use(routes);
+app.use(bodyParser.json());
+app.use('/api', routes);
 
 db.sequelize.sync()
   .then(() => {
@@ -22,5 +24,3 @@ db.sequelize.sync()
   .catch((err) => {
     console.error(err);
   });
-
-app.use(errorHandling);

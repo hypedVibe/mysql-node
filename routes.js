@@ -1,7 +1,10 @@
 const Router = require('express').Router();
+const errorHandling = require('./middleware/errorHandling').errorHandling;
 
-const AuthRoutes = require('./auth/auth.routes');
+const UserRoutes = require('./user/user.routes');
 
-Router.use(AuthRoutes);
+Router.use('/user', UserRoutes);
+Router.use(errorHandling);
+
 
 module.exports = Router;
