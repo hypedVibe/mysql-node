@@ -1,5 +1,5 @@
 function ResponseError (message, statusCode) {
-  this.statusCode = statusCode;
+  this.statusCode = statusCode || 500;
   this.message = message;
 }
 
