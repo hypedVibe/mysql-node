@@ -8,6 +8,7 @@ const user = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
+      unique: true,
     },
     age: {
       type: DataTypes.INTEGER,

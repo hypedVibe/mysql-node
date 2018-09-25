@@ -5,6 +5,7 @@ const UserConroller = require('./user.controller');
 const validateReq = require('../middleware/validateReq');
 
 Router
-  .post('/profile', validateReq('profile'), UserConroller.create);
+  .post('/profile', validateReq('post_profile'), UserConroller.create)
+  .put('/profile/:id', validateReq('put_profile'), UserConroller.update);
 
 module.exports = Router;

@@ -1,10 +1,12 @@
-const User = require('../models/user');
-const ResponseError = require('../errors/reponseError');
+const User = require('../models/index').User;
 
 exports.createProfile = async (userData) => {
-  // const profile = await User.create(userData);
-  // console.log('!!!!!!!!!!1')
-  // console.log(profile)
-  // return profile
-  return 'str'
+  const profile = await User.create(userData);
+  return profile;
+};
+
+exports.updateProfile = async (userId, userData) => {
+  await User.update(userData, { where: { id: userId } });
+  const profile = await User.findOne({ where: { id: userId } });
+  return profile;
 }
