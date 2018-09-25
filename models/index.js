@@ -13,8 +13,8 @@ const sequelize = new Sequelize('nodedb', 'root', 'true', {
 });
 
 const models = {
-  Foo: sequelize.import('./foo'),
-  Bar: sequelize.import('./bar')
+  User: sequelize.import('./user'),
+  Food: sequelize.import('./food'),
 };
 
 models.sequelize = sequelize;
