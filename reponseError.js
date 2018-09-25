@@ -1,5 +1,8 @@
-exports.createError = function (message, statusCode) {
+function ResponseError (message, statusCode) {
   this.statusCode = statusCode;
   this.message = message;
-  return Error.call(this);
 }
+
+ResponseError.prototype = Object.create(Error.prototype);
+
+module.exports = ResponseError;
