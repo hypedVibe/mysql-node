@@ -17,3 +17,12 @@ exports.update = async (req, res, next) => {
     next(err);
   }
 }
+
+exports.get = async (req, res, next) => {
+  try {
+    const profile = await UserService.getProfile(req.params.id);
+    res.status(200).json({ profile });
+  } catch (err) {
+    next(err);
+  }
+}

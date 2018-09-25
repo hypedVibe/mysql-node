@@ -10,3 +10,8 @@ exports.updateProfile = async (userId, userData) => {
   const profile = await User.findOne({ where: { id: userId } });
   return profile;
 }
+
+exports.getProfile = async (userId) => {
+  const profile = await User.findOne({ where: { id: userId } });
+  return profile;
+}
