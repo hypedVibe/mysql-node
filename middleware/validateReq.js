@@ -23,7 +23,7 @@ function validateReq (schema) {
   return (req, res, next)  => {
     validation(schema, {...req.body, ...req.params, ...req.query});
     return next();
-  }
+  };
 }
 
 module.exports = validateReq;

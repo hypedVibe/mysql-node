@@ -1,10 +1,10 @@
+/* eslint-disable no-console */
+
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const routes = require('./routes')
+const routes = require('./routes');
 const db = require('./models/index');
-
-const { errorHandling } = require('./middleware/errorHandling')
 
 const app = express();
 
@@ -16,7 +16,7 @@ db.sequelize.sync()
     app.listen(8080, (err) => {
       if (err) {
         console.log(err);
-      };
+      }
     
       console.log('Server is listening on port 8080');
     });

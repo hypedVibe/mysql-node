@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 exports.errorHandling = (err, req, res, next) => {
   if (err) {
     console.error(err);

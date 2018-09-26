@@ -18,7 +18,7 @@ const food = (sequelize, DataTypes) => {
     Food.belongsTo(models.User);
   };
 
-  return Food
+  return Food;
 };
 
 module.exports = food;

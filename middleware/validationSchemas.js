@@ -13,4 +13,4 @@ exports.put_profile = {
   notAllowed: [
     'rate'
   ]
-}
+};

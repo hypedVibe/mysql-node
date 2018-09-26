@@ -5,7 +5,7 @@ exports.create = async (req, res, next) => {
     const profile = await UserService.createProfile(req.body);
     res.status(200).json({ profile });
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 
@@ -16,7 +16,7 @@ exports.update = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};
 
 exports.get = async (req, res, next) => {
   try {
@@ -25,4 +25,4 @@ exports.get = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};
