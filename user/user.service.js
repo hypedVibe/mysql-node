@@ -7,11 +7,17 @@ exports.createProfile = async (userData) => {
 
 exports.updateProfile = async (userId, userData) => {
   await User.update(userData, { where: { id: userId } });
-  const profile = await User.findOne({ where: { id: userId } });
+  const profile = await exports.getProfile(userId);
   return profile;
 };
 
 exports.getProfile = async (userId) => {
   const profile = await User.findOne({ where: { id: userId } });
+  return profile;
+};
+
+exports.deleteProfile = async (userId) => {
+  const profile = await exports.getProfile(userId);
+  await User.destroy({ where: { id: userId } });
   return profile;
 };

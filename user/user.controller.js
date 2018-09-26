@@ -26,3 +26,12 @@ exports.get = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.delete = async (req, res, next) => {
+  try {
+    const profile = await UserService.deleteProfile(req.params.id);
+    res.status(200).json({ profile });
+  } catch (err) {
+    next(err);
+  }
+};
