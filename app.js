@@ -3,6 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const config = require('./config/index');
 const routes = require('./routes');
 const db = require('./models/index');
 
@@ -13,14 +14,16 @@ app.use('/api', routes);
 
 db.sequelize.sync()
   .then(() => {
-    app.listen(8080, (err) => {
+    app.listen(config.APP_PORT, (err) => {
       if (err) {
         console.log(err);
       }
     
-      console.log('Server is listening on port 8080');
+      console.log(`Server is listening on port ${config.APP_PORT}`);
     });
   })
   .catch((err) => {
     console.error(err);
   });
+
+module.exports = app;

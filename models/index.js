@@ -1,8 +1,11 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('nodedb', 'root', 'true', {
+const config = require('../config/index');
+
+const sequelize = new Sequelize(config.DB_NAME, config.DB_USER, config.DB_PASS, {
   host: 'localhost',
   dialect: 'mysql',
+  port: config.DB_PORT,
   pool: {
     max: 5,
     min: 0,
