@@ -15,8 +15,8 @@ const user = (sequelize, DataTypes) => {
     },
     rate: {
       type: DataTypes.DOUBLE,
-    }
-  });
+    },
+  }, { freezeTableName: true });
   
   User.associate = models => {
     User.hasMany(models.Food);

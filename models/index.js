@@ -17,7 +17,8 @@ const sequelize = new Sequelize(config.DB_NAME, config.DB_USER, config.DB_PASS, 
 
 const models = {
   User: sequelize.import('./user'),
-  Food: sequelize.import('./food'),
+  // TODO: uncomment line below when ready
+  // Food: sequelize.import('./food'),
 };
 
 models.sequelize = sequelize;
