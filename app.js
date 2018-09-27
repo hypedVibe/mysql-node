@@ -14,26 +14,24 @@ const app = express();
 app.use(bodyParser.json());
 app.use('/api', routes);
 
-knexConnection.migrate.latest()
-  // TODO: line below runs seeds. use only for api tests
-  // .then(() => {
-  //   return knexConnection.seed.run()
-  // })
-  .then(() => {
-    return db.sequelize.sync();
-  })
-  .then(() => {
-    app.listen(config.APP_PORT, (err) => {
-      if (err) {
-        console.log(err);
-      }
-    
-      console.log(`Server is listening on port ${config.APP_PORT}`);
-    });
-  })
-  .catch((err) => {
+// running migrations and syncing sequelize
+(async () => {
+  try {
+    console.log('Setting up db');
+    await knexConnection.migrate.latest();
+    await db.sequelize.sync();
+  } catch (err) {
+    console.log('Error while setting up db');
     console.error(err);
-  });
-  
+  }
+})();
+
+app.listen(config.APP_PORT, (err) => {
+  if (err) {
+    console.log(err);
+  }
+
+  console.log(`Server is listening on port ${config.APP_PORT}`);
+});
 
 module.exports = app;
