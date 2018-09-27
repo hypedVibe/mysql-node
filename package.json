@@ -1,0 +1,41 @@
+{
+  "name": "mysql-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "engines": {
+    "node": "9.7.1"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "NODE_ENV=test gulp",
+    "start": "NODE_ENV=development node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hypedVibe/mysql-node.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hypedVibe/mysql-node/issues"
+  },
+  "homepage": "https://github.com/hypedVibe/mysql-node#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "knex": "^0.15.2",
+    "mysql2": "^1.6.1",
+    "sequelize": "^4.38.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "eslint": "^5.6.0",
+    "gulp": "^3.9.1",
+    "gulp-mocha": "^6.0.0",
+    "sinon": "^6.3.4",
+    "sinon-chai": "^3.2.0"
+  }
+}
