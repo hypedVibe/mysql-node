@@ -1,8 +1,11 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('nodedb', 'root', 'true', {
+const config = require('../config/index');
+
+const sequelize = new Sequelize(config.DB_NAME, config.DB_USER, config.DB_PASS, {
   host: 'localhost',
   dialect: 'mysql',
+  port: config.DB_PORT,
   pool: {
     max: 5,
     min: 0,
@@ -13,8 +16,9 @@ const sequelize = new Sequelize('nodedb', 'root', 'true', {
 });
 
 const models = {
-  Foo: sequelize.import('./foo'),
-  Bar: sequelize.import('./bar')
+  User: sequelize.import('./user'),
+  // TODO: uncomment line below when ready
+  // Food: sequelize.import('./food'),
 };
 
 models.sequelize = sequelize;

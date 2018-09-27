@@ -1,26 +1,37 @@
-const express = require('express');
+/* eslint-disable no-console */
 
-const routes = require('./routes')
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const config = require('./config/index');
+const routes = require('./routes');
 const db = require('./models/index');
 
-const { errorHandling } = require('./middleware/errorHandling')
+const knexConnection = require('./knexConnection');
 
 const app = express();
 
-app.use(routes);
+app.use(bodyParser.json());
+app.use('/api', routes);
 
-db.sequelize.sync()
-  .then(() => {
-    app.listen(8080, (err) => {
-      if (err) {
-        console.log(err);
-      };
-    
-      console.log('Server is listening on port 8080');
-    });
-  })
-  .catch((err) => {
+// running migrations and syncing sequelize
+(async () => {
+  try {
+    console.log('Setting up db');
+    await knexConnection.migrate.latest();
+    await db.sequelize.sync();
+  } catch (err) {
+    console.log('Error while setting up db');
     console.error(err);
-  });
+  }
+})();
 
-app.use(errorHandling);
+app.listen(config.APP_PORT, (err) => {
+  if (err) {
+    console.log(err);
+  }
+
+  console.log(`Server is listening on port ${config.APP_PORT}`);
+});
+
+module.exports = app;

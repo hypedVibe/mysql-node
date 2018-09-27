@@ -1,9 +1,13 @@
-exports.errorHandling = (err, req, res, next) => {
-  console.error(err);
-  if (!err.statusCode) {
-    err.statusCode = 500;
-  }
+/* eslint-disable no-console */
 
-  res.status(err.statusCode).json({ error: err });
-  next(err);
+exports.errorHandling = (err, req, res, next) => {
+  if (err) {
+    console.error(err);
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+
+    return res.status(err.statusCode).json({ error: err.message });
+  }
+  next();
 };
