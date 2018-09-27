@@ -9,6 +9,10 @@ module.exports = {
     password: config.DB_PASS,
     database: config.DB_NAME
   },
+  pool: {
+    min: 2,
+    max: 5
+  },
   migrations: {
     directory: './migrations',
   }

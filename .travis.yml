@@ -1,0 +1,11 @@
+sudo: required
+env:
+  - DOCKER_COMPOSE_VERSION: 1.17.0
+before_install:
+  - docker-compose up -d test-db
+language: node_js
+node_js:
+  - "9"
+script:
+  - npm run lint
+  - npm test
