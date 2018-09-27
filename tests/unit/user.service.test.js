@@ -1,12 +1,32 @@
 /* global describe, it */
 
-const expect = require('chai').expect;
+const chai = require('chai');
+const expect = chai.expect;
 
-const { smth } = require('../../user/smth');
+chai.use(require('sinon-chai'));
 
-describe('boilerplate test', () => {
-  it('should return something', () => {
-    const result = smth(10);
-    expect(result).eql(0);
+const userService = require('../../user/user.service');
+
+const User = require('../modelsMock/User');
+
+describe('User Service', () => {
+  describe('createProfile', () => {
+    it('should return user', async () => {
+
+      const result = await userService.createProfile({
+        firstName: 'Test',
+        lastName: 'Test',
+        email: 'test@test.com'
+      });
+
+      expect(User.create.calledOnce).eql(true);
+
+      expect(result).to.eql({
+        id: 1,
+        firstName: 'Test',
+        lastName: 'Test',
+        email: 'test@test.com'
+      });
+    });
   });
 });

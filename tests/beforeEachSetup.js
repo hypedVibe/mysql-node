@@ -1,4 +1,5 @@
 /* global beforeEach */
+/* eslint-disable no-console */
 
 const knexConnection = require('../knexConnection');
 

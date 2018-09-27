@@ -1,5 +1,5 @@
 
-exports.up = (knex, Promise) => knex.schema.hasTable('user')
+exports.up = (knex) => knex.schema.hasTable('user')
   .then((exists) => {
     if (!exists) {
       return knex.schema.createTable('user', (table) => {
@@ -16,4 +16,4 @@ exports.up = (knex, Promise) => knex.schema.hasTable('user')
     }
   });
 
-exports.down = (knex, Promise) => knex.schema.dropTableIfExists('user');
+exports.down = (knex) => knex.schema.dropTableIfExists('user');
