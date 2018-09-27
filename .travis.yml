@@ -1,0 +1,14 @@
+sudo: required
+env:
+  - DOCKER_COMPOSE_VERSION: 1.17.0
+before_install:
+  - docker-compose up -d test-db
+  - docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysqlnode_test-db_1
+language: node_js
+node_js:
+  - "9"
+script:
+  - npm run lint
+  - npm run test:unit
+  # mysql container is not running on CI because of the wrong host IP
+  # - npm run test
