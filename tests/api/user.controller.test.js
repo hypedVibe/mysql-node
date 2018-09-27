@@ -8,7 +8,7 @@ const expect = chai.expect;
 
 chai.use(chaiHttp);
 
-require('../beforeEachSetup');
+require('../beforeEachApiSetup');
 
 const request = chai.request;
 
