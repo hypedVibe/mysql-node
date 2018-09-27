@@ -6,6 +6,7 @@ const knexConnection = require('../knexConnection');
 module.exports = (() => {
   beforeEach(async () => {
     try {
+      await knexConnection.migrate.latest();
       await knexConnection.seed.run();
     } catch (err) {
       console.log('Error while running knex seeds');
