@@ -9,7 +9,7 @@ exports.create = async (userData) => {
 
 exports.update = async (userId, userData) => {
   await User.update(userData, { where: { id: userId } });
-  const profile = await exports.getProfile(userId);
+  const profile = await exports.get(userId);
   return profile;
 };
 
@@ -22,7 +22,7 @@ exports.get = async (userId) => {
 };
 
 exports.delete = async (userId) => {
-  const profile = await exports.getProfile(userId);
+  const profile = await exports.get(userId);
   await User.destroy({ where: { id: userId } });
   return profile;
 };
