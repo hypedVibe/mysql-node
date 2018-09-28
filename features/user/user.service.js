@@ -1,19 +1,19 @@
-const User = require('../models/index').User;
+const User = require('../../models/index').User;
 
-const ResponseError = require('../errors/reponseError');
+const ResponseError = require('../../errors/reponseError');
 
-exports.createProfile = async (userData) => {
+exports.create = async (userData) => {
   const profile = await User.create(userData);
   return profile;
 };
 
-exports.updateProfile = async (userId, userData) => {
+exports.update = async (userId, userData) => {
   await User.update(userData, { where: { id: userId } });
   const profile = await exports.getProfile(userId);
   return profile;
 };
 
-exports.getProfile = async (userId) => {
+exports.get = async (userId) => {
   const profile = await User.findOne({ where: { id: userId } });
   if (!profile) {
     throw new ResponseError(`User with ${userId} id wasn't found`, 404);
@@ -21,7 +21,7 @@ exports.getProfile = async (userId) => {
   return profile;
 };
 
-exports.deleteProfile = async (userId) => {
+exports.delete = async (userId) => {
   const profile = await exports.getProfile(userId);
   await User.destroy({ where: { id: userId } });
   return profile;

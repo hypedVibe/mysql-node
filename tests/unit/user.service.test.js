@@ -6,7 +6,7 @@ const expect = chai.expect;
 chai.use(require('sinon-chai'));
 chai.use(require('chai-as-promised'));
 
-const userService = require('../../user/user.service');
+const userService = require('../../features/user/user.service');
 
 const ResponseError = require('../../errors/reponseError');
 

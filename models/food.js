@@ -12,6 +12,9 @@ const food = (sequelize, DataTypes) => {
     expirationTime: {
       type: DataTypes.DATEONLY,
     },
+    userId: {
+      type: DataTypes.INTEGER
+    }
   });
   
   Food.associate = models => {
