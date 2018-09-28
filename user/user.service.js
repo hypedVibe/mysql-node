@@ -8,8 +8,8 @@ exports.createProfile = async (userData) => {
 };
 
 exports.updateProfile = async (userId, userData) => {
-  const profile = await exports.getProfile(userId);
   await User.update(userData, { where: { id: userId } });
+  const profile = await exports.getProfile(userId);
   return profile;
 };
 
