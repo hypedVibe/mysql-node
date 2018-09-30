@@ -36,3 +36,15 @@ exports.put_food = {
     'isExpired'
   ]
 };
+
+exports.get_food = {
+  required: [
+    'userId'
+  ]
+};
+
+exports.delete_food = {
+  require: [
+    'userId'
+  ]
+};

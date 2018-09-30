@@ -27,6 +27,15 @@ exports.get = async (req, res, next) => {
   }
 };
 
+exports.getAll = async (req, res, next) => {
+  try {
+    const food = await FoodService.findAllFood(req.query.userId);
+    res.status(200).json({ food });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.delete = async (req, res, next) => {
   try {
     const food = await FoodService.delete(req.params.id, req.query.userId);
