@@ -6,13 +6,15 @@ const Food = require('../../models/index').Food;
 
 exports.create = async (foodData, userId) => {
   await UserService.get(userId);
-  foodData.userId = Number(userId);
+  foodData.userId = userId;
   const food = await Food.create(foodData);
   return food;
 };
 
 exports.update = async (foodData, foodId, userId) => {
   await UserService.get(userId);
+
+  await exports.findUsersFood(foodId, userId);
 
   await Food.update(foodData, { where: { id: foodId } });
 
