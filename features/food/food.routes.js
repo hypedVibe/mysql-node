@@ -4,7 +4,6 @@ const FoodController = require('./food.controller');
 
 const validateReq = require('../../middleware/validateReq');
 
-// TODO: test routes
 Router
   .post('/', validateReq('post_food'), FoodController.create)
   .get('/all', FoodController.getAll)

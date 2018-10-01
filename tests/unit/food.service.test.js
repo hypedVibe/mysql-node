@@ -1,4 +1,4 @@
-/* global describe, it, beforeEach, afterEach */
+/* global describe, it, after */
 
 const chai = require('chai');
 const sinon = require('sinon');
@@ -198,5 +198,4 @@ describe('Food service', () => {
       return expect(FoodService.delete(8, 10)).to.be.rejectedWith(new ResponseError('Food of this user was not found', 404).message);
     });
   });
-  
 });
