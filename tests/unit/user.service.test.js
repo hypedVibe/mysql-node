@@ -6,16 +6,16 @@ const expect = chai.expect;
 chai.use(require('sinon-chai'));
 chai.use(require('chai-as-promised'));
 
-const userService = require('../../user/user.service');
+const UserService = require('../../features/user/user.service');
 
 const ResponseError = require('../../errors/reponseError');
 
 const User = require('../modelsMock/User');
 
 describe('User Service', () => {
-  describe('createProfile', () => {
+  describe('create', () => {
     it('should return user', async () => {
-      const result = await userService.createProfile({
+      const result = await UserService.create({
         firstName: 'Test',
         lastName: 'Test',
         email: 'test@test.com'
@@ -32,11 +32,9 @@ describe('User Service', () => {
     });
   });
 
-  describe('getProfile', () => {
+  describe('get', () => {
     it('should return user', async () => {
-      const result = await userService.getProfile(1);
-
-      expect(User.findOne.calledOnce).to.eql(true);
+      const result = await UserService.get(1);
 
       expect(result).to.eql({
         id: 1,
@@ -49,11 +47,11 @@ describe('User Service', () => {
     it('should throw error when user wasn\'t found', async () => {
       User.findOne.returns(undefined);
 
-      return expect(userService.getProfile(13)).to.be.rejectedWith(new ResponseError('User with 13 id wasn\'t found', 404).message);
+      return expect(UserService.get(13)).to.be.rejectedWith(new ResponseError('User with 13 id wasn\'t found', 404).message);
     });
   });
 
-  describe('updateProfile', () => {
+  describe('update', () => {
     it('should return updated user', async () => {
       User.findOne.returns(
         Promise.resolve({
@@ -64,7 +62,7 @@ describe('User Service', () => {
         })
       );
 
-      const result = await userService.updateProfile(1, {
+      const result = await UserService.update(1, {
         firstName: 'First',
         lastName: 'Last',
       });
@@ -83,7 +81,7 @@ describe('User Service', () => {
       User.findOne.returns(undefined);
 
       return expect(
-        userService.updateProfile(13, {
+        UserService.update(13, {
           firstName: 'First',
           lastName: 'Last',
         })
@@ -91,8 +89,8 @@ describe('User Service', () => {
     });
   });
 
-  describe('deleteProfile', () => {
-    it('should return deleted profile', async () => {
+  describe('delete', () => {
+    it('should return deleted ', async () => {
       User.findOne.returns(
         Promise.resolve({
           id: 1,
@@ -102,7 +100,7 @@ describe('User Service', () => {
         })
       );
 
-      const result = await userService.deleteProfile(1);
+      const result = await UserService.delete(1);
 
       expect(User.destroy.calledOnce).eql(true);
 
@@ -117,7 +115,7 @@ describe('User Service', () => {
     it('should return error when user was not found', async () => {
       User.findOne.returns(undefined);
 
-      return expect(userService.deleteProfile(13)).to.be.rejectedWith(new ResponseError('User with 13 id wasn\'t found', 404).message);
+      return expect(UserService.delete(13)).to.be.rejectedWith(new ResponseError('User with 13 id wasn\'t found', 404).message);
     });
   });
 });

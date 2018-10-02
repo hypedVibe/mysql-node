@@ -2,7 +2,7 @@ const Router = require('express').Router();
 
 const UserController = require('./user.controller');
 
-const validateReq = require('../middleware/validateReq');
+const validateReq = require('../../middleware/validateReq');
 
 Router
   .post('/profile', validateReq('post_profile'), UserController.create)
