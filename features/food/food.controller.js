@@ -44,3 +44,12 @@ exports.delete = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.book = async (req, res, next) => {
+  try {
+    const bookedFood = await FoodService.bookFood(req.params.id, req.params.userId);
+    res.status(200).json({ bookedFood });
+  } catch (err) {
+    next(err);
+  }
+};

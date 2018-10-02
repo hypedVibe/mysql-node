@@ -20,6 +20,7 @@ const user = (sequelize, DataTypes) => {
   
   User.associate = models => {
     User.hasMany(models.Food);
+    User.hasMany(models.BookedFood);
   };
 
   return User;

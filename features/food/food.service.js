@@ -2,7 +2,7 @@ const UserService = require('../user/user.service');
 
 const ResponseError = require('../../errors/reponseError');
 
-const Food = require('../../models/index').Food;
+const { Food, BookedFood } = require('../../models/index');
 
 exports.create = async (foodData, userId) => {
   await UserService.get(userId);
@@ -44,4 +44,12 @@ exports.delete = async (foodId, userId) => {
   const food = await exports.findUsersFood(foodId, userId);
   await Food.destroy({ where: { id: foodId } });
   return food;
+};
+
+exports.bookFood = async (foodId, userId) => {
+  // TODO: implement this
+  const user = await Food.findOne({ where: { id: foodId } });
+  console.log('!!!!!!!!!!')
+  console.log(user)
+  // await BookedFood.create({ foodId, recipientId: userId });
 };
