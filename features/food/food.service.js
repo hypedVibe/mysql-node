@@ -24,11 +24,19 @@ exports.update = async (foodData, foodId, userId) => {
 };
 
 exports.findUsersFood = async (foodId, userId) => {
-  const foods = await Food.findAll({ where: { id: foodId, userId } });
-  if (foods.length === 0) {
+  const food = await Food.findOne({ where: { id: foodId, userId } });
+  if (!food) {
     throw new ResponseError('Food of this user was not found', 404);
   }
-  return foods;
+  return food;
+};
+
+exports.get = async (foodId) => {
+  const food = await Food.findOne({ where: { id: foodId } });
+  if (!food) {
+    throw new ResponseError(`Food with id ${foodId} wasn't found`, 400);
+  }
+  return food;
 };
 
 exports.findAllFood = async (userId) => {
@@ -42,14 +50,35 @@ exports.findAllFood = async (userId) => {
 
 exports.delete = async (foodId, userId) => {
   const food = await exports.findUsersFood(foodId, userId);
+  await BookedFood.destroy({ where: { foodId, supplierId: userId } });
   await Food.destroy({ where: { id: foodId } });
   return food;
 };
 
-exports.bookFood = async (foodId, userId) => {
-  // TODO: implement this
-  const user = await Food.findOne({ where: { id: foodId } });
-  console.log('!!!!!!!!!!')
-  console.log(user)
-  // await BookedFood.create({ foodId, recipientId: userId });
+exports.getBookedFood = async (foodId, recipientId) => {
+  const bookedFood = await BookedFood.findOne({ where: { foodId, recipientId } });
+  return bookedFood;
+};
+
+exports.bookFood = async (foodId, recipientId) => {
+  const food = await exports.get(foodId);
+  const bookedFood = await exports.getBookedFood(foodId, recipientId);
+  if (bookedFood) {
+    throw new ResponseError('This food was booked', 400);
+  }
+  await UserService.get(recipientId);
+
+  await BookedFood.create({ foodId, recipientId, supplierId: food.userId });
+
+  return food;
+};
+
+exports.cancelBook = async (foodId, recipientId) => {
+  const food = await exports.get(foodId);
+  const bookedFood = await exports.getBookedFood(foodId, recipientId);
+  if (!bookedFood) {
+    throw new ResponseError(`Food with id ${foodId} wasn't booked`, 400);
+  }
+  await BookedFood.destroy({ where: { foodId, recipientId } });
+  return food;
 };

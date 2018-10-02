@@ -105,7 +105,7 @@ describe('Food service', () => {
     });
 
     it('should return throw error when users food was not found', () => {
-      Food.findAll.returns(Promise.resolve([]));
+      Food.findAll.returns(Promise.resolve(undefined));
 
       return expect(FoodService.findUsersFood(8, 10)).to.be.rejectedWith(new ResponseError('Food of this user was not found', 404).message);
     });

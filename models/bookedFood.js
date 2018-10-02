@@ -5,6 +5,9 @@ const bookedFood = (sequelize, DataTypes) => {
     },
     recipientId: {
       type: DataTypes.INTEGER
+    },
+    foodId: {
+      type: DataTypes.INTEGER
     }
   }, { freezeTableName: true });
   

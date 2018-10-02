@@ -98,19 +98,17 @@ describe('FoodController', async () => {
   });
 
   describe('Get one product', () => {
-    it('should return 200 HTTP code and product with specified id ofuser with id=1', async () => {
+    it('should return 200 HTTP code and product with specified id of user with id=1', async () => {
       const lastFoodId = await getLastFood();
       return request(app)
         .get(`/api/food/${lastFoodId}?userId=1`)
         .then((res) => {
           expect(res.status).eql(200);
-          expect(res.body.food).to.be.an('array');
-          expect(res.body.food.length).eql(1);
-          expect(res.body.food[0]).to.have.property('id');
-          expect(res.body.food[0]).to.have.property('name', 'test food 1');
-          expect(res.body.food[0]).to.have.property('description', 'tasty test food');
-          expect(res.body.food[0]).to.have.property('expirationTime', '2010-09-20');
-          expect(res.body.food[0]).to.have.property('userId', 1);
+          expect(res.body.food).to.have.property('id');
+          expect(res.body.food).to.have.property('name', 'test food 1');
+          expect(res.body.food).to.have.property('description', 'tasty test food');
+          expect(res.body.food).to.have.property('expirationTime', '2010-09-20');
+          expect(res.body.food).to.have.property('userId', 1);
         });
     });
 
@@ -141,13 +139,11 @@ describe('FoodController', async () => {
         .send({ name: 'new food name' })
         .then((res) => {
           expect(res.status).eql(200);
-          expect(res.body.food).to.be.an('array');
-          expect(res.body.food.length).eql(1);
-          expect(res.body.food[0]).to.have.property('id');
-          expect(res.body.food[0]).to.have.property('name', 'new food name');
-          expect(res.body.food[0]).to.have.property('description', 'tasty test food');
-          expect(res.body.food[0]).to.have.property('expirationTime', '2010-09-20');
-          expect(res.body.food[0]).to.have.property('userId', 1);
+          expect(res.body.food).to.have.property('id');
+          expect(res.body.food).to.have.property('name', 'new food name');
+          expect(res.body.food).to.have.property('description', 'tasty test food');
+          expect(res.body.food).to.have.property('expirationTime', '2010-09-20');
+          expect(res.body.food).to.have.property('userId', 1);
         });
     });
 
@@ -179,13 +175,11 @@ describe('FoodController', async () => {
         .delete(`/api/food/${lastFoodId}?userId=1`)
         .then((res) => {
           expect(res.status).eql(200);
-          expect(res.body.food).to.be.an('array');
-          expect(res.body.food.length).eql(1);
-          expect(res.body.food[0]).to.have.property('id');
-          expect(res.body.food[0]).to.have.property('name', 'test food 1');
-          expect(res.body.food[0]).to.have.property('description', 'tasty test food');
-          expect(res.body.food[0]).to.have.property('expirationTime', '2010-09-20');
-          expect(res.body.food[0]).to.have.property('userId', 1);
+          expect(res.body.food).to.have.property('id');
+          expect(res.body.food).to.have.property('name', 'test food 1');
+          expect(res.body.food).to.have.property('description', 'tasty test food');
+          expect(res.body.food).to.have.property('expirationTime', '2010-09-20');
+          expect(res.body.food).to.have.property('userId', 1);
         });
     });
 

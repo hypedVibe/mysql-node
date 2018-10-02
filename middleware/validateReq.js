@@ -20,7 +20,7 @@ function validation (schema, reqData) {
 }
 
 function validateReq (schema) {
-  return (req, res, next)  => {
+  return (req, res, next) => {
     validation(schema, {...req.body, ...req.params, ...req.query});
     return next();
   };
