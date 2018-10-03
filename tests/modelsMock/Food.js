@@ -26,6 +26,18 @@ exports.findAll = sinon.stub(Food, 'findAll').returns(
   }])
 );
 
+exports.findOne = sinon.stub(Food, 'findOne').returns(
+  Promise.resolve({
+    'id': 1,
+    'name': 'first food',
+    'description': 'awsome',
+    'expirationTime': '2018-10-09',
+    'userId': 1,
+    'updatedAt': '2018-09-30T19:22:24.103Z',
+    'createdAt': '2018-09-30T19:22:24.103Z'
+  })
+);
+
 exports.update = sinon.stub(Food, 'update').returns(
   Promise.resolve()
 );

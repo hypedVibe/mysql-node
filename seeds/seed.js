@@ -2,10 +2,12 @@
 
 const user = require('./data/users');
 const food = require('./data/food');
+const bookedFood = require('./data/bookedFood');
 
 const seedData = [
   user,
   food,
+  // bookedFood
 ];
 
 exports.seed = async function(knex) {

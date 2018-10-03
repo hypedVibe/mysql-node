@@ -11,7 +11,7 @@ Router
   .put('/:id', validateReq('put_food'), FoodController.update)
   .delete('/:id', validateReq('delete_food'), FoodController.delete)
   
-  // TODO: if supplier deletes food then it must be unbooked
+  .get('/book/recipient/:recipientId', FoodController.getUsersBookedFood)
   .get('/book/:id/recipient/:recipientId', FoodController.book)
   .get('/book/cancel/:id/recipient/:recipientId', FoodController.cancelBook);
 

@@ -192,4 +192,15 @@ describe('FoodController', async () => {
         });
     });
   });
+
+  // describe('Get user\'s booked food', () => {
+  //   it('should return 200 HTTP code and booked food of user with id = 2', () => {
+  //     return request(app)
+  //       .get('/api/food/book/recipient/2')
+  //       .then((res) => {
+  //         console.log('$$$$$$$$$$$11');
+  //         console.log(res.body)
+  //       });
+  //   });
+  // });
 });

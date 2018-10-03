@@ -55,14 +55,28 @@ exports.delete = async (foodId, userId) => {
   return food;
 };
 
-exports.getBookedFood = async (foodId, recipientId) => {
+exports.getOneBookedFood = async (foodId, recipientId) => {
   const bookedFood = await BookedFood.findOne({ where: { foodId, recipientId } });
   return bookedFood;
 };
 
+exports.getUsersBookedFood = async (recipientId) => {
+  const bookedFood = await BookedFood.findAll({ where: { recipientId } });
+  if (bookedFood.length === 0) {
+    return [];
+  }
+  const bookedFoodPromises = Promise.all(
+    bookedFood.map(async (food) => {
+      const usersFood = await Food.findOne({ where: { id: food.id } });
+      return usersFood;
+    }));
+    
+  return await bookedFoodPromises;
+};
+
 exports.bookFood = async (foodId, recipientId) => {
   const food = await exports.get(foodId);
-  const bookedFood = await exports.getBookedFood(foodId, recipientId);
+  const bookedFood = await exports.getOneBookedFood(foodId, recipientId);
   if (bookedFood) {
     throw new ResponseError('This food was booked', 400);
   }
@@ -75,7 +89,7 @@ exports.bookFood = async (foodId, recipientId) => {
 
 exports.cancelBook = async (foodId, recipientId) => {
   const food = await exports.get(foodId);
-  const bookedFood = await exports.getBookedFood(foodId, recipientId);
+  const bookedFood = await exports.getOneBookedFood(foodId, recipientId);
   if (!bookedFood) {
     throw new ResponseError(`Food with id ${foodId} wasn't booked`, 400);
   }
