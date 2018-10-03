@@ -34,7 +34,7 @@ exports.findUsersFood = async (foodId, userId) => {
 exports.get = async (foodId) => {
   const food = await Food.findOne({ where: { id: foodId } });
   if (!food) {
-    throw new ResponseError(`Food with id ${foodId} wasn't found`, 400);
+    throw new ResponseError(`Food with id ${foodId} wasn't found`, 404);
   }
   return food;
 };
@@ -66,12 +66,13 @@ exports.getUsersBookedFood = async (recipientId) => {
     return [];
   }
   const bookedFoodPromises = Promise.all(
-    bookedFood.map(async (food) => {
-      const usersFood = await Food.findOne({ where: { id: food.id } });
+    bookedFood.map(async (bFood) => {
+      const usersFood = await Food.findOne({ where: { id: bFood.foodId } });
       return usersFood;
     }));
     
-  return await bookedFoodPromises;
+  const result = await bookedFoodPromises;
+  return result;
 };
 
 exports.bookFood = async (foodId, recipientId) => {
@@ -91,7 +92,7 @@ exports.cancelBook = async (foodId, recipientId) => {
   const food = await exports.get(foodId);
   const bookedFood = await exports.getOneBookedFood(foodId, recipientId);
   if (!bookedFood) {
-    throw new ResponseError(`Food with id ${foodId} wasn't booked`, 400);
+    throw new ResponseError(`Food with id ${foodId} wasn't booked by this user`, 400);
   }
   await BookedFood.destroy({ where: { foodId, recipientId } });
   return food;

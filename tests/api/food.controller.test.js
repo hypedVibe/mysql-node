@@ -193,14 +193,98 @@ describe('FoodController', async () => {
     });
   });
 
-  // describe('Get user\'s booked food', () => {
-  //   it('should return 200 HTTP code and booked food of user with id = 2', () => {
-  //     return request(app)
-  //       .get('/api/food/book/recipient/2')
-  //       .then((res) => {
-  //         console.log('$$$$$$$$$$$11');
-  //         console.log(res.body)
-  //       });
-  //   });
-  // });
+  describe('Make food booking', () => {
+    it('should return 200 HTTP code and booked food', async () => {
+      const lastFoodId = await getLastFood();
+
+      return request(app)
+        .get(`/api/food/book/${lastFoodId}/recipient/1`)
+        .then((res) => {
+          expect(res.status).eql(200);
+          expect(res.body.bookedFood).to.have.property('id');
+          expect(res.body.bookedFood).to.have.property('name', 'test food 1');
+          expect(res.body.bookedFood).to.have.property('description', 'tasty test food');
+          expect(res.body.bookedFood).to.have.property('expirationTime', '2010-09-20');
+          expect(res.body.bookedFood).to.have.property('userId', 1);
+        });
+    });
+
+    it('should return 400 HTTP code and error when food does not exists', () => {
+      return request(app)
+        .get('/api/food/book/9223372036854775806/recipient/1')
+        .then((res) => {
+          expect(res.status).eql(404);
+          expect(res.body).eql({ error: 'Food with id 9223372036854775806 wasn\'t found' });
+        });
+    });
+
+    it('should return erro when food is already booked', async () => {
+      const lastFoodId = await getLastFood();
+      await request(app).get(`/api/food/book/${lastFoodId}/recipient/1`);
+
+      return request(app)
+        .get(`/api/food/book/${lastFoodId}/recipient/1`)
+        .then((res) => {
+          expect(res.status).eql(400);
+          expect(res.body).eql({ error: 'This food was booked' });
+        });
+    });
+  });
+
+  describe('Get user\'s booked food', () => {
+    it('should return 200 HTTP code and booked food of user with id = 1', async () => {
+      const lastFoodId = await getLastFood();
+      await request(app).get(`/api/food/book/${lastFoodId}/recipient/1`);
+
+      return request(app)
+        .get('/api/food/book/recipient/1')
+        .then((res) => {
+          expect(res.status).eql(200);
+          expect(res.body.bookedFood).to.be.an('array');
+          expect(res.body.bookedFood[0]).to.have.property('id');
+          expect(res.body.bookedFood[0]).to.have.property('name', 'test food 1');
+          expect(res.body.bookedFood[0]).to.have.property('description', 'tasty test food');
+          expect(res.body.bookedFood[0]).to.have.property('expirationTime', '2010-09-20');
+          expect(res.body.bookedFood[0]).to.have.property('userId', 1);
+        });
+    });
+
+    it('should return 200 HTTP code and empty array when user has no booked food', async () => {
+      return request(app)
+        .get('/api/food/book/recipient/2')
+        .then((res) => {
+          expect(res.status).eql(200);
+          expect(res.body.bookedFood).to.be.an('array');
+          expect(res.body.bookedFood.length).eql(0);
+        });
+    });
+  });
+
+  describe('Cancel book', () => {
+    it('should return 200 HTTP code and canceled food', async () => {
+      const lastFoodId = await getLastFood();
+      await request(app).get(`/api/food/book/${lastFoodId}/recipient/1`);
+      return request(app)
+        .get(`/api/food/book/cancel/${lastFoodId}/recipient/1`)
+        .then((res) => {
+          expect(res.status).eql(200);
+          expect(res.body.canceledFood).to.have.property('id');
+          expect(res.body.canceledFood).to.have.property('name', 'test food 1');
+          expect(res.body.canceledFood).to.have.property('description', 'tasty test food');
+          expect(res.body.canceledFood).to.have.property('expirationTime', '2010-09-20');
+          expect(res.body.canceledFood).to.have.property('userId', 1);
+        });
+    });
+
+    it('should return 400 HTTP code and error when user tries to cancel booking of not his food', async () => {
+      const lastFoodId = await getLastFood();
+      await request(app).get(`/api/food/book/${lastFoodId}/recipient/1`);
+      return request(app)
+        .get(`/api/food/book/cancel/${lastFoodId}/recipient/3`)
+        .then((res) => {
+          expect(res.status).eql(400);
+          expect(res.body).eql({ error: `Food with id ${lastFoodId} wasn't booked by this user` });
+        });
+    });
+  });
 });
