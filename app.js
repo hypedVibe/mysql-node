@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 
 const config = require('./config/index');
 const routes = require('./routes');
-const db = require('./models/index');
 
 const knexConnection = require('./knexConnection');
 
@@ -19,7 +18,6 @@ app.use('/api', routes);
   try {
     console.log('Setting up db');
     await knexConnection.migrate.latest();
-    await db.sequelize.sync();
   } catch (err) {
     console.log('Error while setting up db');
     console.error(err);

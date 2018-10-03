@@ -18,6 +18,7 @@ const sequelize = new Sequelize(config.DB_NAME, config.DB_USER, config.DB_PASS, 
 const models = {
   User: sequelize.import('./user'),
   Food: sequelize.import('./food'),
+  BookedFood: sequelize.import('./bookedFood'),
 };
 
 models.sequelize = sequelize;

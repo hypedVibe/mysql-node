@@ -19,6 +19,7 @@ const food = (sequelize, DataTypes) => {
   
   Food.associate = models => {
     Food.belongsTo(models.User);
+    Food.hasOne(models.BookedFood);
   };
 
   return Food;

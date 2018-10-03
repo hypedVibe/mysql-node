@@ -2,7 +2,7 @@ const UserService = require('../user/user.service');
 
 const ResponseError = require('../../errors/reponseError');
 
-const Food = require('../../models/index').Food;
+const { Food, BookedFood } = require('../../models/index');
 
 exports.create = async (foodData, userId) => {
   await UserService.get(userId);
@@ -24,11 +24,19 @@ exports.update = async (foodData, foodId, userId) => {
 };
 
 exports.findUsersFood = async (foodId, userId) => {
-  const foods = await Food.findAll({ where: { id: foodId, userId } });
-  if (foods.length === 0) {
+  const food = await Food.findOne({ where: { id: foodId, userId } });
+  if (!food) {
     throw new ResponseError('Food of this user was not found', 404);
   }
-  return foods;
+  return food;
+};
+
+exports.get = async (foodId) => {
+  const food = await Food.findOne({ where: { id: foodId } });
+  if (!food) {
+    throw new ResponseError(`Food with id ${foodId} wasn't found`, 404);
+  }
+  return food;
 };
 
 exports.findAllFood = async (userId) => {
@@ -42,6 +50,50 @@ exports.findAllFood = async (userId) => {
 
 exports.delete = async (foodId, userId) => {
   const food = await exports.findUsersFood(foodId, userId);
+  await BookedFood.destroy({ where: { foodId, supplierId: userId } });
   await Food.destroy({ where: { id: foodId } });
+  return food;
+};
+
+exports.getOneBookedFood = async (foodId, recipientId) => {
+  const bookedFood = await BookedFood.findOne({ where: { foodId, recipientId } });
+  return bookedFood;
+};
+
+exports.getUsersBookedFood = async (recipientId) => {
+  const bookedFood = await BookedFood.findAll({ where: { recipientId } });
+  if (bookedFood.length === 0) {
+    return [];
+  }
+  const bookedFoodPromises = Promise.all(
+    bookedFood.map(async (bFood) => {
+      const usersFood = await Food.findOne({ where: { id: bFood.foodId } });
+      return usersFood;
+    }));
+    
+  const result = await bookedFoodPromises;
+  return result;
+};
+
+exports.bookFood = async (foodId, recipientId) => {
+  const food = await exports.get(foodId);
+  const bookedFood = await exports.getOneBookedFood(foodId, recipientId);
+  if (bookedFood) {
+    throw new ResponseError('This food was booked', 400);
+  }
+  await UserService.get(recipientId);
+
+  await BookedFood.create({ foodId, recipientId, supplierId: food.userId });
+
+  return food;
+};
+
+exports.cancelBook = async (foodId, recipientId) => {
+  const food = await exports.get(foodId);
+  const bookedFood = await exports.getOneBookedFood(foodId, recipientId);
+  if (!bookedFood) {
+    throw new ResponseError(`Food with id ${foodId} wasn't booked by this user`, 400);
+  }
+  await BookedFood.destroy({ where: { foodId, recipientId } });
   return food;
 };
